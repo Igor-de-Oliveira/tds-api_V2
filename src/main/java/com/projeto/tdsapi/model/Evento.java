@@ -1,6 +1,6 @@
 package com.projeto.tdsapi.model;
 
-import java.sql.Time;
+import java.util.Date;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "evento")
@@ -19,14 +21,15 @@ public class Evento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_Evento;
 
-    private Time Evento_D_H;
-
+    @NotNull
+    private Date Evento_D_H;
+    @NotNull
     private int Evento_Dur;
 
     private int Evento_Num_Conv;
 
     @OneToOne
-    @JoinColumn(name = "local", referencedColumnName = "id_Local")
+    @JoinColumn(name = "id_Local", referencedColumnName = "id_Local")
     private Local local;
 
     public Long getId_Evento() {
@@ -37,11 +40,11 @@ public class Evento {
         this.id_Evento = id_Evento;
     }
 
-    public Time getEvento_D_H() {
+    public Date getEvento_D_H() {
         return Evento_D_H;
     }
 
-    public void setEvento_D_H(Time evento_D_H) {
+    public void setEvento_D_H(Date evento_D_H) {
         Evento_D_H = evento_D_H;
     }
 

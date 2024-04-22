@@ -42,7 +42,7 @@ CREATE TABLE Usuario (
                          Usuario_end VARCHAR(45) NOT NULL,
                          Usuario_email VARCHAR(45) NOT NULL,
                          Usuario_nasc DATE NOT NULL,
-                         id_Reserva INT(11) NOT NULL,
+                         id_Reserva INT(11) NULL,
                          FOREIGN KEY (id_Reserva) REFERENCES Reserva (id_Reserva)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

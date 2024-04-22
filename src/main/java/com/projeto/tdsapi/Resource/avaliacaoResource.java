@@ -4,15 +4,16 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import com.projeto.tdsapi.Repository.filter.AvaliacaoFilter;
+import com.projeto.tdsapi.event.RecursoCriadEvent;
+import com.projeto.tdsapi.service.AvaliacaoService;
+import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.projeto.tdsapi.Repository.avaliacaoRepository;
@@ -27,19 +28,24 @@ public class avaliacaoResource {
     @Autowired
     private avaliacaoRepository avaliacaoRepository;
 
+    @Autowired
+    private ApplicationEventPublisher publisher;
+
+    @Autowired
+    private AvaliacaoService avaliacaoService;
+
     @GetMapping
-    public List<avaliacao> Listar() {
+    public List<avaliacao> pesquisar(AvaliacaoFilter avaliacaoFilter) {
         return avaliacaoRepository.findAll();
     }
 
     @PostMapping
-    public ResponseEntity<avaliacao> criar(@RequestBody avaliacao avaliacao, @NotNull HttpServletResponse response) {
+    public ResponseEntity<avaliacao> criar(@Valid @RequestBody avaliacao avaliacao, @NotNull HttpServletResponse response) {
         avaliacao avaliacaoSalva = avaliacaoRepository.save(avaliacao);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id_avaliacao}").buildAndExpand(avaliacaoSalva.getIdavaliacao()).toUri();
-        response.setHeader("Location", uri.toASCIIString());
+        publisher.publishEvent(new RecursoCriadEvent(this, response, avaliacaoSalva.getIdavaliacao()));
 
-        return ResponseEntity.created(uri).body(avaliacaoSalva);
+        return ResponseEntity.status(HttpStatus.CREATED).body(avaliacaoSalva);
     }
 
     @GetMapping("/{id_avaliacao}")
@@ -47,4 +53,18 @@ public class avaliacaoResource {
         Optional<avaliacao> avaliacao = this.avaliacaoRepository.findById(id_avaliacao);
         return avaliacao.isPresent() ? ResponseEntity.ok(avaliacao) : ResponseEntity.notFound().build();
     }
+
+    @DeleteMapping("/{id_avaliacao}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletar(@PathVariable Long id_avaliacao){
+        this.avaliacaoRepository.deleteById(id_avaliacao);
+    }
+
+    @PutMapping("/{id_avaliacao}")
+    public ResponseEntity<avaliacao> atualizar(@PathVariable Long id_avaliacao, @Valid @RequestBody avaliacao avaliacao){
+        avaliacao avaliacaoSalva = avaliacaoService.atualizar(id_avaliacao, avaliacao);
+        return ResponseEntity.ok(avaliacaoSalva);
+    }
+
+
 }

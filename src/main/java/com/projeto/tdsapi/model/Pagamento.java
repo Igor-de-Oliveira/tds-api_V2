@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -18,7 +20,10 @@ public class Pagamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_Pagamento;
 
+    @NotNull
+    @Size(min = 0, max = 45)
     private String Pagamento_status;
+
 
     @OneToOne
     @JoinColumn(name = "usuario", referencedColumnName = "id_Usuario")

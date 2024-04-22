@@ -3,13 +3,10 @@ package com.projeto.tdsapi.model;
 import java.sql.Date;
 import java.util.Objects;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 @Entity
@@ -20,21 +17,30 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_Usuario;
 
+    @NotNull
+    @Size(min = 0, max = 45)
     private String Usuario_name;
 
     private int Usuario_idade;
 
+    @NotNull
+    @Size(min = 0, max = 45)
     private String Usuario_pass;
 
+    @NotNull
+    @Size(min = 0, max = 45)
     private String Usuario_end;
 
+    @NotNull
+    @Size(min = 0, max = 45)
     private String Usuario_email;
 
+    @NotNull
     private Date Usuario_nasc;
 
-    /*@OneToMany
-    @JoinColumn(name = "reserva", referencedColumnName = "idReserva")
-    private List<Reserva> idreservas;*/
+    @OneToOne
+    @JoinColumn(name = "id_Reserva", referencedColumnName = "id_Reserva")
+    private Reserva reserva;
 
     public Long getId_Usuario() {
         return id_Usuario;
@@ -92,13 +98,13 @@ public class Usuario {
         Usuario_nasc = usuario_nasc;
     }
 
-    /*public List<Reserva> getIdreservas() {
-        return idreservas;
+    public Reserva getReserva() {
+        return reserva;
     }
 
-    public void setIdreservas(List<Reserva> idreservas) {
-        this.idreservas = idreservas;
-    }*/
+    public void setReserva(Reserva reserva) {
+        this.reserva = reserva;
+    }
 
     @Override
     public boolean equals(Object o) {

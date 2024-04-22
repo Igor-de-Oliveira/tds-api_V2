@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "local")
@@ -16,12 +18,20 @@ public class Local {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_Local;
 
+    @NotNull
+    @Size(min = 1, max = 45)
     private String Local_Name;
+
+
 
     private int Local_Cap;
 
+    @NotNull
+    @Size(min = 0, max = 45)
     private String Local_End;
 
+    @NotNull
+    @Size(min = 0, max = 45)
     private String Local_disp;
 
     public Long getId_Local() {

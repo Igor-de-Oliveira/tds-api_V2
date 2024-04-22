@@ -1,13 +1,8 @@
 package com.projeto.tdsapi.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -20,18 +15,25 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_Reserva;
 
+    @NotNull
+    @Size(min = 0, max = 45)
     private String Reserva_status;
 
+    @NotNull
+    @Size(min = 0, max = 45)
     private String Reserva_Data;
 
     @OneToOne
-    @JoinColumn(name = "local", referencedColumnName = "id_Local")
+    @JoinColumn(name = "id_local", referencedColumnName = "id_Local")
     private Local local;
 
-    /*@OneToMany
-    @JoinColumn(name = "funcionario", referencedColumnName = "id_Funcionario")
-    private List<Funcionario> funcionario;*/
+    @OneToOne
+    @JoinColumn(name = "id_Funcionario", referencedColumnName = "id_Funcionario")
+    private Funcionario funcionario;
 
+   /* @ManyToOne
+    @JoinColumn(name = "id_Usuario")
+    private Usuario usuario;*/
     public Long getId_Reserva() {
         return id_Reserva;
     }
@@ -64,12 +66,20 @@ public class Reserva {
         this.local = local;
     }
 
-    /*public List<Funcionario> getFuncionario() {
+    public Funcionario getFuncionario() {
         return funcionario;
     }
 
-    public void setFuncionario(List<Funcionario> funcionario) {
+    public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
+    }
+
+    /*public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }*/
 
     @Override

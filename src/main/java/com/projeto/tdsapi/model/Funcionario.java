@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -18,14 +20,19 @@ public class Funcionario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_Funcionario;
 
+    @NotNull
+    @Size(min = 0, max = 45)
     private String Funcionario_CPF;
 
+    @NotNull
+    @Size(min = 0, max = 45)
     private String Funcionario_End;
 
+    @Size(min = 0, max = 11)
     private int Funcionario_Cel;
 
     @ManyToOne
-    @JoinColumn(name = "evento", referencedColumnName = "id_Evento")
+    @JoinColumn(name = "id_Evento", referencedColumnName = "id_Evento")
     private Evento evento;
 
     public Long getId_Funcionario() {
