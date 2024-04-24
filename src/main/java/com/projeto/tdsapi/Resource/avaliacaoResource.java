@@ -1,10 +1,8 @@
 package com.projeto.tdsapi.Resource;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
-import com.projeto.tdsapi.Repository.filter.AvaliacaoFilter;
 import com.projeto.tdsapi.event.RecursoCriadEvent;
 import com.projeto.tdsapi.service.AvaliacaoService;
 import jakarta.validation.Valid;
@@ -14,7 +12,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.projeto.tdsapi.Repository.avaliacaoRepository;
 import com.projeto.tdsapi.model.avaliacao;
@@ -35,7 +32,7 @@ public class avaliacaoResource {
     private AvaliacaoService avaliacaoService;
 
     @GetMapping
-    public List<avaliacao> pesquisar(AvaliacaoFilter avaliacaoFilter) {
+    public List<avaliacao> listar(){
         return avaliacaoRepository.findAll();
     }
 

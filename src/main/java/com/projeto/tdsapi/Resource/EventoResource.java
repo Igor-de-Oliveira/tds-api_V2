@@ -1,6 +1,5 @@
 package com.projeto.tdsapi.Resource;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +11,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -33,7 +31,7 @@ public class EventoResource {
     private EventoService eventoService;
 
     @GetMapping
-    public List<Evento> Listr(){
+    public List<Evento> pesquisar(){
         return eventoRepository.findAll();
     }
 
